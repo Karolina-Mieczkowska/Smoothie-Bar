@@ -1,0 +1,87 @@
+:root {
+    --on_background-clr: #3D3535;
+    --pink_smoothie-clr: #FF9685;
+    --mint_smoothie-clr: #D6F9E7;
+    --green_smoothie-clr: #79DCA8;
+    --blue_smoothie-clr: #84CEDA;
+    --purple_smoothie-clr: #E3A2BA;
+    --yellow_smoothie-clr: #F9C465;
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.header__figure {
+    height: 159px;
+    margin: 0;
+    background-image: url(smoothie.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.header__title {
+    padding: 1rem 1.5rem;
+    margin: 0;
+    -webkit-box-shadow: 0px 4px 15px 0px rgba(0,0,0,0.15); 
+    box-shadow: 0px 4px 15px 0px rgba(0,0,0,0.15);
+}
+
+main {
+    margin: 0 1.5rem;
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.product {
+    padding: 1rem;
+    min-height: 121.5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.25rem;
+    color: var(--on_background-clr);
+    background: var(--pink_smoothie-clr);
+}
+
+.product__description,
+.product__price {
+    margin: 0;
+}
+
+.product__price {
+    font-weight: 600;
+}
+
+/* BACKGROUNDS */
+
+.product__background--pink {
+    background: var(--pink_smoothie-clr);
+}
+
+.product__background--mint {
+    background: var(--mint_smoothie-clr);
+}
+
+.product__background--green {
+    background: var(--green_smoothie-clr);
+}
+
+.product__background--blue {
+    background: var(--blue_smoothie-clr);
+}
+
+.product__background--purple {
+    background: var(--purple_smoothie-clr);
+}
+
+.product__background--yellow {
+    background: var(--yellow_smoothie-clr);
+}
+
+
