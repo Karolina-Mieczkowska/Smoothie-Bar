@@ -1,7 +1,5 @@
 const main = document.querySelector('main');
 
-main.innerHTML = '';
-
 // PRODUCTS
 
 const products = [
@@ -11,27 +9,27 @@ const products = [
         background: 'pink'
     },
     {
-        title: 'Coconut cream, Mint & Avocado',
+        title: 'Coconut cream, Avocado & Mint',
         price: '6.50',
         background: 'mint'
     },
     {
-        title: 'Cucamber, Mint & Avocado',
+        title: 'Cucumber, Mint & Avocado',
         price: '6.50',
         background: 'green'
     },
     {
-        title: 'Kiwi, Banana, Spinach',
+        title: 'Kiwi, Banana & Spinach',
         price: '4.95',
         background: 'blue'
     },
     {
-        title: 'Blueberries, Spinach & Banana',
+        title: 'Blueberries, Banana & Spinach',
         price: '4.50',
         background: 'purple'
     },
     {
-        title: 'Yoghurt, Pineaple & Orange',
+        title: 'Yoghurt, Pineapple & Orange',
         price: '4.45',
         background: 'yellow'
     }
