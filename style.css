@@ -34,6 +34,9 @@ body {
 main {
     margin: 0 1.5rem;
     padding: 1.5rem 0;
+}
+
+.main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
@@ -143,7 +146,6 @@ footer {
 .btn.state--active:hover,
 .btn:focus {
     outline: none;
-    color: var(--primary_dark-clr);
 }
 
 .btn__quantity {

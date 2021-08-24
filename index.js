@@ -1,4 +1,7 @@
-const main = document.querySelector('main');
+const main = document.querySelector('.main');
+const btnQuantityPlus = document.querySelector('.btn__quantity--plus');
+const quantityInput = document.querySelector('.quantity__input');
+const btnQuantityMinus = document.querySelector('.btn__quantity--minus');
 
 // PRODUCTS
 
@@ -46,10 +49,27 @@ const mappedProducts = products.map(function(product) {
 
 main.insertAdjacentHTML('afterbegin', mappedProducts);
 
+// STEP UP BUTTON
 
+btnQuantityPlus.addEventListener('click', function(ev) {
+    ev.preventDefault();
 
+    btnQuantityMinus.classList.remove('state--inactive');
+    quantityInput.value++;
+})
 
+// STEP DOWN BUTTON 
 
+btnQuantityMinus.addEventListener('click', function(ev) {
+    ev.preventDefault();
 
+    if (quantityInput.value > 1) {
+
+        quantityInput.value--;
+    } else {
+
+        this.classList.add('state--inactive');
+    }
+})
 
 
