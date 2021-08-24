@@ -1,6 +1,8 @@
 :root {
     --primary-clr: #035CC3;
+    --primary_dark-clr: #044797;
     --on_background-clr: #3D3535;
+    --inactive-clr: lightslategray;
     --pink_smoothie-clr: #FF9685;
     --mint_smoothie-clr: #D6F9E7;
     --green_smoothie-clr: #79DCA8;
@@ -95,18 +97,27 @@ footer {
 
 .manage {
     position: absolute;
-    top: 0;
+    top: 100vh;
     left: 0;
     height: 100vh;
     width: 100vw;
     background: #FFF;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+.manage--active {
+    top: 0;
 }
 
 .manage__title {
     margin: 0;
     border-bottom: 2px solid var(--on_background-clr);
-    padding: 1rem 1.5rem;
+    padding-bottom: 1rem;
     text-align: left;
 }
 
@@ -119,8 +130,64 @@ footer {
 .manage__product,
 .manage__price {
     font-size: 22px;
+    margin: 0 0 1.25rem 0;
+    display: block;
 }
 
+.btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
 
+.btn.state--active:hover,
+.btn:focus {
+    outline: none;
+    color: var(--primary_dark-clr);
+}
+
+.btn__quantity {
+    font-size: 33px;
+    margin: .5rem .5rem;
+}
+
+.quantity__input {
+    text-align: center;
+    width: 3rem;
+    font-size: 32px;
+    border: none;
+}
+
+.quantity__input:focus {
+    border: none;
+}
+
+.quantity__input::-webkit-inner-spin-button,
+.quantity__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.state--inactive {
+    color: var(--inactive-clr);
+}
+
+.state--active {
+    color: var(--primary-clr);
+}
+
+.manage__btn--add {
+    padding: .75rem;
+    margin-bottom: .5rem;
+    background: var(--primary-clr);
+    font-size: 1.25rem;
+    color: #FFF;
+    display: flex;
+    justify-content: space-between;
+}
+  
+.manage__btn--add:hover,
+.manage__btn--add:focus {
+    background: var(--primary_dark-clr);
+}
 
 
