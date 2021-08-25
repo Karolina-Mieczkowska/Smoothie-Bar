@@ -64,6 +64,12 @@ main {
     font-weight: 600;
 }
 
+footer {
+    text-align: center;
+    padding: .25rem 0 1rem 0;
+    color: var(--on_background-clr);
+}
+
 /* BACKGROUNDS */
 
 .product__background--pink {
@@ -90,12 +96,6 @@ main {
     background: var(--yellow_smoothie-clr);
 }
 
-footer {
-    text-align: center;
-    padding: .25rem 0 1rem 0;
-    color: var(--on_background-clr);
-}
-
 /* OVERLAY */
 
 .manage {
@@ -113,9 +113,9 @@ footer {
     box-sizing: border-box;
 }
 
-.manage--active {
+/* .manage--active {
     top: 0;
-}
+} */
 
 .manage__title {
     margin: 0;
@@ -192,4 +192,18 @@ footer {
     background: var(--primary_dark-clr);
 }
 
+.checkout__reference {
+    background: var(--primary-clr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: 2rem;
+    color: #FFF;
+}
+
+.checkout__reference svg {
+    height: 32px;
+    width: auto;
+}
 
