@@ -68,6 +68,7 @@ footer {
     text-align: center;
     padding: .25rem 0 1rem 0;
     color: var(--on_background-clr);
+    display: none;
 }
 
 /* BACKGROUNDS */
@@ -192,18 +193,52 @@ footer {
     background: var(--primary_dark-clr);
 }
 
+/* CHECKOUT REFERENCE */
+
 .checkout__reference {
     background: var(--primary-clr);
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100vw;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     color: #FFF;
+    display: none;
+    grid-template-columns: 1fr 4fr;
+    font-weight: 600;
+}
+
+.checkout__reference--active {
+    display: grid;
 }
 
 .checkout__reference svg {
-    height: 32px;
+    height: 38px;
     width: auto;
+    position: relative;
+    top: 12px;
+}
+
+.reference__price {
+    margin: 0;
+    padding-bottom: .5rem;
+    font-size: 22px;
+}
+
+.reference__paragraph {
+    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.reference__quantity {
+    background: #FFF;
+    color: var(--primary-clr);
+    text-align: center;
+    border-radius: 50%;
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    bottom: 50%;
 }
 

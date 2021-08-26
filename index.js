@@ -11,6 +11,10 @@ const backArrow = document.querySelector('.manage__title--icon');
 const body = document.querySelector('body');
 const footer = document.querySelector('footer');
 
+const checkoutReference = document.querySelector('.checkout__reference');
+const referenceQuantity = document.querySelector('.reference__quantity');
+const referencePrice = document.querySelector('.reference__price');
+
 // PRODUCTS
 
 const products = [
@@ -88,9 +92,17 @@ closeManageSection();
 
 // DISPLAY CHOOSE SECTION
 
+let productPrice;
+let productQuantity;
+
 const displayChooseSection = function(product) {
 
     openManageSection();
+
+    if (checkoutReference.classList.contains('checkout__reference--active')) {
+        
+        checkoutReference.classList.remove('checkout__reference--active');
+    }
 
     productTitle.textContent = product.title;
     
@@ -99,6 +111,13 @@ const displayChooseSection = function(product) {
     priceOutput.textContent = `£${product.price.toFixed(2)}`;
 
     btnPriceValue.textContent = `£${product.price.toFixed(2)}`;
+
+    productPrice = quantityInput.value * selectedProduct.price;
+    productQuantity = Number(quantityInput.value);
+
+    priceOutput.textContent = `£${productPrice.toFixed(2)}`;
+
+    btnPriceValue.textContent = `£${productPrice.toFixed(2)}`;
 }
 
 // SELECTED PRODUCT
@@ -118,9 +137,6 @@ productSections.forEach(function(section, ind) {
 })
 
 // STEP UP BUTTON
-
-let productPrice;
-let productQuantity;
 
 btnQuantityPlus.addEventListener('click', function(ev) {
     ev.preventDefault();
@@ -168,9 +184,71 @@ backArrow.addEventListener('click', closeManageSection);
 btnAddToOrder.addEventListener('click', function(ev) {
     ev.preventDefault();
 
-    console.log(selectedProduct.title);
-    console.log(productQuantity);
-    console.log(productPrice.toFixed(2));
-    
+    // console.log(selectedProduct.title);
+    // console.log(productQuantity);
+    // console.log(productPrice.toFixed(2));
+
+    // yourOrderProducts.push(selectedProduct.title);
+    // yourOrderPrices.push(productPrice.toFixed(2));
+    // yourOrderQuantities.push(productQuantity);
+
+    // console.log(yourOrderProducts);
+    // console.log(yourOrderPrices);
+    // console.log(yourOrderQuantities);
+
+    const currentOrder = new YourOrder(selectedProduct.title, productPrice.toFixed(2), productQuantity);
+
+    yourOrders.push(currentOrder);
+    console.log(yourOrders);
+
+    console.log(yourOrders[0].selectedProductQuantity);
+
+    const orderQuantity = yourOrders.map(function(order) {
+        return order.selectedProductQuantity;
+    });
+
+    console.log(orderQuantity);
+
+    // Tu skończyłam
+
+    referenceQuantity.textContent = productQuantity;
+    referencePrice.textContent = `£${productPrice.toFixed(2)}`;
+
     closeManageSection();
+    checkoutReference.classList.add('checkout__reference--active');
+    footer.style.height = `${checkoutReference.clientHeight}px`;
+    footer.innerHTML = '';
 })
+
+// GO TO CHECKOUT
+
+checkoutReference.addEventListener('click', function() {
+
+    
+})
+
+// YOUR ORDER 
+
+// const yourOrderProducts = [];
+// const yourOrderPrices = [];
+// const yourOrderQuantities = [];
+
+// function Person(first, last, age, eye) {
+//     this.firstName = first;
+//     this.lastName = last;
+//     this.age = age;
+//     this.eyeColor = eye;
+// }
+
+// const myFather = new Person("John", "Doe", 50, "blue");
+// const myMother = new Person("Sally", "Rally", 48, "green");
+
+function YourOrder(title, price, quantity) {
+    this.selectedProductTitle = title;
+    this.selectedProductPrice = price;
+    this.selectedProductQuantity = quantity;
+}
+
+const yourOrders = [];
+
+
