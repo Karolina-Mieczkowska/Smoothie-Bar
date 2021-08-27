@@ -132,6 +132,10 @@ productSections.forEach(function(section, ind) {
         
         selectedProduct = products[ind];
 
+        quantityInput.value = 1;
+
+        btnQuantityMinus.classList.add('state--inactive');
+
         displayChooseSection(selectedProduct);
     })
 })
@@ -203,16 +207,35 @@ btnAddToOrder.addEventListener('click', function(ev) {
 
     console.log(yourOrders[0].selectedProductQuantity);
 
-    const orderQuantity = yourOrders.map(function(order) {
-        return order.selectedProductQuantity;
-    });
+    const orderQuantity = yourOrders
+        .map(function(order) {
+            return order.selectedProductQuantity;
+        })
+        .reduce(function(acc, curr) {
+            return acc + curr;
+        }, 0);
 
     console.log(orderQuantity);
 
-    // Tu skończyłam
+    // const orderPrice = yourOrders.forEach(function(yourOrder) {
+    //     console.log(Number(yourOrder.selectedProductPrice)); 
+    //     console.log(yourOrder.selectedProductQuantity);
+    // });
 
-    referenceQuantity.textContent = productQuantity;
-    referencePrice.textContent = `£${productPrice.toFixed(2)}`;
+    const orderPrice = yourOrders
+        .map(function(order) {
+            return Number(order.selectedProductPrice);
+        })
+        .reduce(function(acc, curr) {
+            return acc + curr;
+        }, 0)
+        .toFixed(2);
+        
+
+    console.log(orderPrice);
+
+    referenceQuantity.textContent = orderQuantity;
+    referencePrice.textContent = `£${orderPrice}`;
 
     closeManageSection();
     checkoutReference.classList.add('checkout__reference--active');
