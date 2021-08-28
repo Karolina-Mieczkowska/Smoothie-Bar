@@ -5,9 +5,11 @@ const btnQuantityMinus = document.querySelector('.btn__quantity--minus');
 const priceOutput = document.querySelector('.manage__price');
 const btnPriceValue = document.querySelector('.btn__price');
 const btnAddToOrder = document.querySelector('.manage__btn--add');
-const manageForm = document.querySelector('.manage');
+// const manage = document.querySelector('.manage');
+const manageChoose = document.querySelector('.manage__choose');
+const manageOrder = document.querySelector('.manage__order');
 const productTitle = document.querySelector('.manage__product');
-const backArrow = document.querySelector('.manage__title--icon');
+const backArrow = document.querySelectorAll('.manage__title--icon');
 const body = document.querySelector('body');
 const footer = document.querySelector('footer');
 
@@ -65,29 +67,51 @@ main.insertAdjacentHTML('afterbegin', mappedProducts);
 
 let bodyHeight = body.clientHeight;
 
-const closeManageSection = function() {
+const closeManageChooseSection = function() {
 
-    manageForm.style.top = `${bodyHeight}px`;
+    manageChoose.style.top = `${bodyHeight}px`;
 
-    manageForm.style.display = 'none';
+    manageChoose.style.display = 'none';
 
     main.style.display = 'grid';
 
     footer.style.display = 'block';
 }
 
-const openManageSection = function() {
+const openManageChooseSection = function() {
     
-    manageForm.style.top = '0';
+    manageChoose.style.top = '0';
 
-    manageForm.style.display = 'flex';
+    manageChoose.style.display = 'flex';
 
     main.style.display = 'none';
 
     footer.style.display = 'none';
 }
 
-closeManageSection();
+const closeManageOrderSection = function() {
+
+    manageOrder.style.top = `${bodyHeight}px`;
+
+    manageOrder.style.display = 'none';
+
+    main.style.display = 'grid';
+
+    footer.style.display = 'block';
+}
+
+const openManageOrderSection = function() {
+    
+    manageOrder.style.top = '0';
+
+    manageOrder.style.display = 'flex';
+
+    main.style.display = 'none';
+
+    footer.style.display = 'none';
+}
+
+closeManageChooseSection();
 
 
 // DISPLAY CHOOSE SECTION
@@ -97,7 +121,7 @@ let productQuantity;
 
 const displayChooseSection = function(product) {
 
-    openManageSection();
+    openManageChooseSection();
 
     if (checkoutReference.classList.contains('checkout__reference--active')) {
         
@@ -181,7 +205,11 @@ btnQuantityMinus.addEventListener('click', function(ev) {
 
 // CLOSE MANAGE SECTION
 
-backArrow.addEventListener('click', closeManageSection);
+backArrow.forEach(function(arrow) {
+    
+    arrow.addEventListener('click', closeManageChooseSection);
+    arrow.addEventListener('click', closeManageOrderSection);
+})
 
 // ADD TO ORDER
 
@@ -237,17 +265,10 @@ btnAddToOrder.addEventListener('click', function(ev) {
     referenceQuantity.textContent = orderQuantity;
     referencePrice.textContent = `£${orderPrice}`;
 
-    closeManageSection();
+    closeManageChooseSection();
     checkoutReference.classList.add('checkout__reference--active');
     footer.style.height = `${checkoutReference.clientHeight}px`;
     footer.innerHTML = '';
-})
-
-// GO TO CHECKOUT
-
-checkoutReference.addEventListener('click', function() {
-
-    
 })
 
 // YOUR ORDER 
@@ -267,11 +288,23 @@ checkoutReference.addEventListener('click', function() {
 // const myMother = new Person("Sally", "Rally", 48, "green");
 
 function YourOrder(title, price, quantity) {
+    
     this.selectedProductTitle = title;
     this.selectedProductPrice = price;
     this.selectedProductQuantity = quantity;
 }
 
 const yourOrders = [];
+
+// GO TO CHECKOUT
+
+checkoutReference.addEventListener('click', function() {
+
+    openManageOrderSection();
+
+    checkoutReference.classList.remove('checkout__reference--active');
+})
+
+
 
 

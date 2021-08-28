@@ -178,18 +178,21 @@ footer {
     color: var(--primary-clr);
 }
 
-.manage__btn--add {
+.manage__btn {
     padding: .75rem;
     margin-bottom: .5rem;
     background: var(--primary-clr);
     font-size: 1.25rem;
     color: #FFF;
+}
+
+.manage__btn--add {
     display: flex;
     justify-content: space-between;
 }
   
-.manage__btn--add:hover,
-.manage__btn--add:focus {
+.manage__btn:hover,
+.manage__btn:focus {
     background: var(--primary_dark-clr);
 }
 
