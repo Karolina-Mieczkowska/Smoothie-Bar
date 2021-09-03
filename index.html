@@ -25,10 +25,10 @@
                 <span class="manage__title--content">Choose quantity</span>
             </h2>
             <div class="manage__quantity">
-                <p class="manage__product">Strawberry, Banana & Mint</p>
-                <output class="manage__price">£5.95</output>
+                <p class="manage__product manage__product--choose">Strawberry, Banana & Mint</p>
+                <output class="manage__price manage__price--choose">£5.95</output>
                 <button class="btn btn__quantity btn__quantity--minus state--inactive">&#8722;</button>
-                <input type="number" value="1" class="quantity__input">
+                <input type="number" value="1" class="quantity__input quantity__input--choose">
                 <button class="btn btn__quantity btn__quantity--plus state--active">&#43;</button>
             </div>
             <button class="btn manage__btn manage__btn--add" type="submit">
@@ -80,6 +80,24 @@
                 Go to checkout
             </button>
         </form>
+
+        <form class="manage manage__change">
+            <h2 class="manage__title">
+                <span class="manage__icon manage_icon--back-change">&#8592;</span>
+                <span class="manage__title--content">Change quantity or remove</span>
+            </h2>
+            <div class="manage__quantity">
+                <p class="manage__product manage__product--change">Strawberry, Banana & Mint</p>
+                <output class="manage__price manage__price--change">£5.95</output>
+                <button class="btn btn__quantity btn__quantity--minus state--inactive">&#8722;</button>
+                <input type="number" value="1" class="quantity__input quantity__input--change">
+                <button class="btn btn__quantity btn__quantity--plus state--active">&#43;</button>
+            </div>
+            <button class="btn manage__btn manage__btn--change" type="submit">
+                ok
+            </button>
+        </form>
+
         <section class="checkout__reference">
             <div class="checkout__basket">
                 <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket3" viewBox="0 0 16 16">
