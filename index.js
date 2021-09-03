@@ -9,13 +9,17 @@ const btnAddToOrder = document.querySelector('.manage__btn--add');
 const manageChoose = document.querySelector('.manage__choose');
 const manageOrder = document.querySelector('.manage__order');
 const productTitle = document.querySelector('.manage__product');
-const backArrow = document.querySelectorAll('.manage__title--icon');
+const backArrow = document.querySelectorAll('.manage__icon--back');
 const body = document.querySelector('body');
 const footer = document.querySelector('footer');
 
 const checkoutReference = document.querySelector('.checkout__reference');
 const referenceQuantity = document.querySelector('.reference__quantity');
 const referencePrice = document.querySelector('.reference__price');
+
+const ordersSection = document.querySelector('.manage__orders');
+
+const totalPriceOutput = document.querySelector('.manage__total--output');
 
 // PRODUCTS
 
@@ -98,6 +102,10 @@ const closeManageOrderSection = function() {
     main.style.display = 'grid';
 
     footer.style.display = 'block';
+
+    if (yourOrders.length > 0) {
+        checkoutReference.classList.add('checkout__reference--active');
+    }
 }
 
 const openManageOrderSection = function() {
@@ -112,6 +120,9 @@ const openManageOrderSection = function() {
 }
 
 closeManageChooseSection();
+
+// Open for styling
+// openManageOrderSection();
 
 
 // DISPLAY CHOOSE SECTION
@@ -269,6 +280,10 @@ btnAddToOrder.addEventListener('click', function(ev) {
     checkoutReference.classList.add('checkout__reference--active');
     footer.style.height = `${checkoutReference.clientHeight}px`;
     footer.innerHTML = '';
+
+    displayOrders(yourOrders);
+
+    totalPriceOutput.textContent = `£${orderPrice}`;
 })
 
 // YOUR ORDER 
@@ -296,6 +311,49 @@ function YourOrder(title, price, quantity) {
 
 const yourOrders = [];
 
+// const mappedProducts = products.map(function(product) {
+//     return `
+//             <section class="product product__background--${product.background}">
+//                 <p class="product__description">${product.title}</p>
+//                 <p class="product__price">£${product.price.toFixed(2)}</p>
+//             </section> 
+//             `
+// }).join('');
+
+// main.insertAdjacentHTML('afterbegin', mappedProducts);
+
+// const displayOrders = function(orders) {
+//     orders.map(function(order) {
+//         return `
+//             <div class="order__row">
+//                 <output class="order__row--quantity">${order.selectedProductQuantity}</output>
+//                 <output class="order__row--title">${order.selectedProductTitle}</output>
+//                 <output class="order__row--price">£${order.selectedProductPrice}</output>
+//             </div>
+//         `
+//     })
+
+//     ordersSection.insertAdjacentHTML('afterbegin', orders);
+// }
+
+// displayOrders(yourOrders);
+
+const displayOrders = function(orders) {
+    const mappedOrders = orders.map(function(order) {
+        return `
+            <div class="order__row">
+                <output class="order__row--quantity">${order.selectedProductQuantity}</output>
+                <output class="order__row--title">${order.selectedProductTitle}</output>
+                <output class="order__row--price">£${order.selectedProductPrice}</output>
+            </div>
+        `
+    }).join('');
+
+    ordersSection.innerHTML = '';
+    
+    ordersSection.insertAdjacentHTML('afterbegin', mappedOrders);
+}
+
 // GO TO CHECKOUT
 
 checkoutReference.addEventListener('click', function() {
@@ -304,6 +362,8 @@ checkoutReference.addEventListener('click', function() {
 
     checkoutReference.classList.remove('checkout__reference--active');
 })
+
+// CHANGE QUANTITY OR REMOVE
 
 
 

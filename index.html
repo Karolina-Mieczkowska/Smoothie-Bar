@@ -21,7 +21,7 @@
         <section class="main"></section>
         <form class="manage manage__choose">
             <h2 class="manage__title">
-                <span class="manage__title--icon">&#8592;</span>
+                <span class="manage__icon manage_icon--back">&#8592;</span>
                 <span class="manage__title--content">Choose quantity</span>
             </h2>
             <div class="manage__quantity">
@@ -39,25 +39,52 @@
 
         <form class="manage manage__order">
             <h2 class="manage__title">
-                <span class="manage__title--icon">&#8592;</span>
+                <span class="manage__icon manage__icon--back">&#8592;</span>
                 <span class="manage__title--content">Your Order</span>
             </h2>
-            <div class="manage__quantity">
-                <p class="manage__product">Strawberry, Banana & Mint</p>
-                <output class="manage__price">£5.95</output>
-                <button class="btn btn__quantity btn__quantity--minus state--inactive">&#8722;</button>
-                <input type="number" value="1" class="quantity__input">
-                <button class="btn btn__quantity btn__quantity--plus state--active">&#43;</button>
+            <section class="manage__orders">
+                <div class="order__row">
+                    <output class="order__row--quantity">1</output>
+                    <output class="order__row--title">Strawberry, Banana & Mint</output>
+                    <output class="order__row--price">£5.95</output>
+                </div>
+            </section>
+            <div class="manage__total">
+                <label class="manage__total--label">Total:</label>
+                <output class="manage__total--output">£17.85</output>
+            </div>
+            <div class="manage__table">
+                <label class="table__number">
+                    Table number
+                    <span class="manage__icon manage__icon--table">&#8594;</span>
+                </label>
+                <select name="table-number">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                </select>
             </div>
             <button class="btn manage__btn manage__btn--checkout" type="submit">
                 Go to checkout
             </button>
         </form>
         <section class="checkout__reference">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket3" viewBox="0 0 16 16">
+            <div class="checkout__basket">
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket3" viewBox="0 0 16 16">
                     <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM3.394 15l-1.48-6h-.97l1.525 6.426a.75.75 0 0 0 .729.574h9.606a.75.75 0 0 0 .73-.574L15.056 9h-.972l-1.479 6h-9.21z"/>
-                </svg>
+                </svg> -->
                 <span class="reference__quantity">1</span>
             </div>
             <div>
