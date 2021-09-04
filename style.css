@@ -344,3 +344,8 @@ select {
  .manage__table {
      display: flex;
  }
+
+ .btn__remove {
+     color: tomato;
+     font-size: 20px;
+ }

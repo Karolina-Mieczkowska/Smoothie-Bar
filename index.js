@@ -28,6 +28,7 @@ const referencePrice = document.querySelector('.reference__price');
 const ordersSection = document.querySelector('.manage__orders');
 
 const totalPriceOutput = document.querySelector('.manage__total--output');
+const btnRemove = document.querySelector('.btn__remove');
 
 // PRODUCTS
 
@@ -279,6 +280,8 @@ changeBackArrow.addEventListener('click', closeManageChangeSection);
 
 // ADD TO ORDER
 
+let orderPrice;
+
 btnAddToOrder.addEventListener('click', function(ev) {
     ev.preventDefault();
 
@@ -316,14 +319,14 @@ btnAddToOrder.addEventListener('click', function(ev) {
     //     console.log(yourOrder.selectedProductQuantity);
     // });
 
-    const orderPrice = yourOrders
+    orderPrice = yourOrders
         .map(function(order) {
             return Number(order.selectedProductPrice);
         })
         .reduce(function(acc, curr) {
             return acc + curr;
         }, 0)
-        .toFixed(2);
+    .toFixed(2);
         
 
     console.log(orderPrice);
@@ -338,7 +341,7 @@ btnAddToOrder.addEventListener('click', function(ev) {
 
     displayOrders(yourOrders);
 
-    totalPriceOutput.textContent = `£${orderPrice}`;
+    // totalPriceOutput.textContent = `£${orderPrice}`;
 })
 
 // YOUR ORDER 
@@ -410,6 +413,20 @@ const displayOrders = function(orders) {
     
     ordersSection.insertAdjacentHTML('afterbegin', mappedOrders);
 
+    orderPrice = yourOrders
+        .map(function(order) {
+            return Number(order.selectedProductPrice);
+        })
+        .reduce(function(acc, curr) {
+            return acc + curr;
+        }, 0)
+        .toFixed(2);
+        
+
+    console.log(orderPrice);
+
+    totalPriceOutput.textContent = `£${orderPrice}`
+
     const orderRow = document.querySelectorAll('.order__row');
 
     orderRow.forEach(function(row, ind) {
@@ -464,14 +481,38 @@ const displayChangeSection = function(ind) {
     changedOrder = yourOrders[ind];
 };
 
+// UPDATE ORDER WITH PREVIOUS CHANGES
+
 btnChange.addEventListener('click', function(ev) {
     ev.preventDefault();
 
     closeManageChangeSection();
 
-    // tu skończyłam (update Order form with provided changes)
     console.log(changedOrder)
 })
+
+btnRemove.addEventListener('click', function(ev) {
+    ev.preventDefault();
+
+    const index = yourOrders.findIndex(function(order) {
+        return order.selectedProductTitle === changedOrder.selectedProductTitle;
+    })
+
+    console.log(index);
+
+    yourOrders.splice(index, 1);
+
+    if (yourOrders.length > 0) {
+        displayOrders(yourOrders);
+    } else {
+        closeManageChangeSection();
+        closeManageOrderSection();
+    }
+})
+
+// Display empty basket
+
+
 
 
 
