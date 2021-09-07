@@ -87,7 +87,7 @@ main.insertAdjacentHTML('afterbegin', mappedProducts);
 let bodyHeight = body.clientHeight;
 
 const closeManageSection = function() {
-
+    
     manage.forEach(function(section) {
         
         section.style.top = `${bodyHeight}px`;
@@ -249,11 +249,20 @@ productSections.forEach(function(section, ind) {
             console.log('pierwszy raz zamawiasz ten produkt')
         }
 
-        quantityInput.forEach(function(input) {
+        quantityInput.forEach(function(input, ind) {
             if (foundOrder) {
                 input.value = foundOrder.selectedProductQuantity;
             } else {
                 input.value = 1;
+                btnQuantityMinus.forEach(function(minusButton) {
+                    minusButton.classList.add('state--inactive')
+                })
+            }
+        })
+
+        btnQuantityMinus.forEach(function(minusButton) {
+            if (foundOrder && quantityInputChange.value > 1) {
+                minusButton.classList.remove('state--inactive')
             }
         })
 
@@ -622,8 +631,10 @@ btnRemove.addEventListener('click', function(ev) {
 
 backArrow.forEach(function(arrow) {
     
-    arrow.addEventListener('click', closeManageChooseSection);
-    arrow.addEventListener('click', closeManageOrderSection);
+    // arrow.addEventListener('click', closeManageChooseSection);
+    // arrow.addEventListener('click', closeManageOrderSection);
+    arrow.addEventListener('click', closeManageSection);
+    arrow.addEventListener('click', displayCheckoutReference);
 })
 
 // DISPLAY FINISHED ORDER
@@ -660,8 +671,10 @@ btnDone.addEventListener('click', function(ev) {
     closeManageSection();
 })
 
-// Zacznij od minus button. Zamiast for each powinno być ind
-// Następnie zajmij się arrow back kiedy klikasz ten sam produkt
+// Zacznij od minus button. Zamiast for each powinno być ind <
+// Następnie zajmij się arrow back kiedy klikasz ten sam produkt <
+// Zmień total w sekcji finished
+// Pozbądź się checkout reference kiedy nie ma żadnych zamówień
 
 
 
