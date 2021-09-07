@@ -58,7 +58,7 @@
                     Table number
                     <span class="manage__icon manage__icon--table">&#8594;</span>
                 </label>
-                <select name="table-number">
+                <select name="table-number" class="table__number--select">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -96,6 +96,34 @@
             <button class="btn btn__remove">Remove from order</button>
             <button class="btn manage__btn manage__btn--change" type="submit">
                 ok
+            </button>
+        </form>
+
+        <form class="manage manage__finished">
+            <h2 class="manage__title">
+                <span class="manage__icon manage__icon--back">&#8592;</span>
+                <span class="manage__title--content">Your order is being prepeared</span>
+            </h2>
+            <section class="manage__orders">
+                <div class="order__row">
+                    <output class="order__row--quantity">1</output>
+                    <output class="order__row--title">Strawberry, Banana & Mint</output>
+                    <output class="order__row--price">£5.95</output>
+                </div>
+            </section>
+            <div class="manage__total">
+                <label class="manage__total--label">Total:</label>
+                <output class="manage__total--output">£17.85</output>
+            </div>
+            <div class="manage__table">
+                <label class="table__number--label">
+                    Table number
+                    <span class="manage__icon manage__icon--table">&#8594;</span>
+                </label>
+                <output class="table__number--output">1</output>
+            </div>
+            <button class="btn manage__btn manage__btn--finished" type="submit">
+                Done
             </button>
         </form>
 

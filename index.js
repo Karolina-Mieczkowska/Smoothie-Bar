@@ -10,6 +10,7 @@ const priceOutputChange = document.querySelector('.manage__price--change');
 const btnPriceValue = document.querySelector('.btn__price');
 const btnAddToOrder = document.querySelector('.manage__btn--add');
 const btnChange = document.querySelector('.manage__btn--change');
+const btnGoToCheckout = document.querySelector('.manage__btn--checkout');
 const manage = document.querySelectorAll('.manage');
 const manageChoose = document.querySelector('.manage__choose');
 const manageOrder = document.querySelector('.manage__order');
@@ -25,10 +26,15 @@ const checkoutReference = document.querySelector('.checkout__reference');
 const referenceQuantity = document.querySelector('.reference__quantity');
 const referencePrice = document.querySelector('.reference__price');
 
-const ordersSection = document.querySelector('.manage__orders');
+const ordersSection = document.querySelectorAll('.manage__orders');
 
 const totalPriceOutput = document.querySelector('.manage__total--output');
 const btnRemove = document.querySelector('.btn__remove');
+
+const tableSelect = document.querySelector('.table__number--select');
+const finishedOrderSection = document.querySelector('.manage__finished');
+const tableNumberOutput = document.querySelector('.table__number--output');
+const btnDone = document.querySelector('.manage__btn--finished');
 
 // PRODUCTS
 
@@ -211,24 +217,61 @@ const displayChooseSection = function(product) {
 // SELECTED PRODUCT
 
 let selectedProduct;
+let foundOrder;
 
 const productSections = document.querySelectorAll('.product');
 
 productSections.forEach(function(section, ind) {
     
     section.addEventListener('click', function() {
+
+        // Sprawdź czy produkt, który kliknęłam znajduje się już w yourOrders
         
         selectedProduct = products[ind];
+        
+        console.log('selected')
+        console.log(selectedProduct.title)
+        
+        foundOrder = yourOrders.find(function(order) {
+            return order.selectedProductTitle === selectedProduct.title;
+        })
+
+        console.log('found')
+        console.log(foundOrder);
+
+        if (foundOrder) {
+            console.log('Już masz to zamówienie w koszyku')
+
+            // Zamiast dodawać zamówienie do yourOrders wyświetl change section
+
+            displayChangeSection(ind);
+        } else {
+            console.log('pierwszy raz zamawiasz ten produkt')
+        }
 
         quantityInput.forEach(function(input) {
-            input.value = 1;
+            if (foundOrder) {
+                input.value = foundOrder.selectedProductQuantity;
+            } else {
+                input.value = 1;
+            }
         })
+
+        // if (foundOrder) {
+        //     quantityInput.forEach(function(input) {
+        //         input.value = foundOrder.selectedProductQuantity;
+        //     })
+        // } else {
+        //     quantityInput.forEach(function(input) {
+        //         input.value = 1;
+        //     })
+        // }
 
         // quantityInputChoose.value = 1;
 
-        btnQuantityMinus.forEach(function(minusButton) {
-            minusButton.classList.add('state--inactive');
-        })
+        // btnQuantityMinus.forEach(function(minusButton) {
+        //     minusButton.classList.add('state--inactive');
+        // })
 
         displayChooseSection(selectedProduct);
     })
@@ -236,14 +279,16 @@ productSections.forEach(function(section, ind) {
 
 // STEP UP BUTTON
 
-btnQuantityPlus.forEach(function(plusButton) {
+btnQuantityPlus.forEach(function(plusButton, ind) {
     
     plusButton.addEventListener('click', function(ev) {
         ev.preventDefault();
 
-        btnQuantityMinus.forEach(function(minusButton) {
-            minusButton.classList.remove('state--inactive');
-        })
+        // btnQuantityMinus.forEach(function(minusButton) {
+        //     minusButton.classList.remove('state--inactive');
+        // })
+
+        btnQuantityMinus[ind].classList.remove('state--inactive');
 
         quantityInput.forEach(function(input) {
             input.value++;
@@ -267,6 +312,12 @@ btnQuantityPlus.forEach(function(plusButton) {
 // STEP DOWN BUTTON 
 
 btnQuantityMinus.forEach(function(minusButton) {
+
+    if (productQuantity === 1) {
+        minusButton.classList.add('state--inactve');
+    } else {
+        minusButton.classList.remove('state-inactive');
+    }
     
     minusButton.addEventListener('click', function(ev) {
         ev.preventDefault();
@@ -364,8 +415,6 @@ btnAddToOrder.addEventListener('click', function(ev) {
 
     console.log(yourOrders[0].selectedProductQuantity);
 
-    // Jeśli któryś z elementów yourOrders ma taki sam title jak currentOrder title, to należy dodać quantity i proce nowego elementu do tego pierwszego.
-
     closeManageChooseSection();
 
     updateCheckoutReference(yourOrders);
@@ -442,9 +491,14 @@ const displayOrders = function(orders) {
         `
     }).join('');
 
-    ordersSection.innerHTML = '';
+    ordersSection.forEach(function(section) {
+        section.innerHTML = '';
+        section.insertAdjacentHTML('afterbegin', mappedOrders);
+    })
+
+    // ordersSection.innerHTML = '';
     
-    ordersSection.insertAdjacentHTML('afterbegin', mappedOrders);
+    // ordersSection.insertAdjacentHTML('afterbegin', mappedOrders);
 
     orderPrice = yourOrders
         .map(function(order) {
@@ -522,6 +576,20 @@ btnChange.addEventListener('click', function(ev) {
     closeManageChangeSection();
 
     console.log(changedOrder)
+
+    console.log('new product details')
+    console.log(productPrice);
+    console.log(productQuantity)
+    console.log(changedOrder);
+
+    changedOrder.selectedProductPrice = productPrice.toFixed(2);
+    changedOrder.selectedProductQuantity = productQuantity;
+
+    updateCheckoutReference(yourOrders);
+
+    displayOrders(yourOrders);
+    closeManageSection();
+    displayCheckoutReference();
 })
 
 btnRemove.addEventListener('click', function(ev) {
@@ -558,7 +626,42 @@ backArrow.forEach(function(arrow) {
     arrow.addEventListener('click', closeManageOrderSection);
 })
 
+// DISPLAY FINISHED ORDER
 
+const displayFinishedOrderSection = function() {
+
+    finishedOrderSection.style.top = '0';
+
+    finishedOrderSection.style.display = 'flex';
+
+    main.style.display = 'none';
+
+    footer.style.display = 'none';
+
+    ordersSection.forEach(function(section) {
+        section.style.minHeight = '30%';
+    })
+
+    tableNumberOutput.textContent = tableSelect.value;
+}
+
+btnGoToCheckout.addEventListener('click', function(ev) {
+    ev.preventDefault();
+
+    console.log(tableSelect.value)
+
+    displayFinishedOrderSection();
+})
+
+btnDone.addEventListener('click', function(ev) {
+
+    ev.preventDefault();
+
+    closeManageSection();
+})
+
+// Zacznij od minus button. Zamiast for each powinno być ind
+// Następnie zajmij się arrow back kiedy klikasz ten sam produkt
 
 
 

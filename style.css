@@ -277,7 +277,8 @@ footer {
 
 /* MANAGE ORDER */
 
-.manage__order {
+.manage__order,
+.manage__finished {
     text-align: left;
     font-size: 22px;
     font-weight: 600;
@@ -348,4 +349,10 @@ select {
  .btn__remove {
      color: tomato;
      font-size: 20px;
+ }
+
+ .table__number--output {
+     display: block;
+     position: relative;
+     top: 12px;
  }
