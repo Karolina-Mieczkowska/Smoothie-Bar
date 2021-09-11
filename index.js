@@ -1,42 +1,59 @@
+// UI ELEMENTS
+
 const main = document.querySelector('.main');
-const btnQuantityPlus = document.querySelectorAll('.btn__quantity--plus');
-const quantityInput = document.querySelectorAll('.quantity__input');
-const quantityInputChoose = document.querySelector('.quantity__input--choose');
-const quantityInputChange = document.querySelector('.quantity__input--change');
-const btnQuantityMinus = document.querySelectorAll('.btn__quantity--minus');
-const priceOutput = document.querySelectorAll('.manage__price');
-const priceOutputChoose = document.querySelector('.manage__price--choose');
-const priceOutputChange = document.querySelector('.manage__price--change');
-const btnPriceValue = document.querySelector('.btn__price');
-const btnAddToOrder = document.querySelector('.manage__btn--add');
-const btnChange = document.querySelector('.manage__btn--change');
-const btnGoToCheckout = document.querySelector('.manage__btn--checkout');
+const body = document.querySelector('body');
+const footer = document.querySelector('footer');
+
+// SECTIONS
+
 const manage = document.querySelectorAll('.manage');
 const manageChoose = document.querySelector('.manage__choose');
 const manageOrder = document.querySelector('.manage__order');
 const manageChange = document.querySelector('.manage__change');
 const productTitle = document.querySelector('.manage__product--choose');
-const productTitleChange = document.querySelector('.manage__product--change')
-const backArrow = document.querySelectorAll('.manage__icon--back');
-const changeBackArrow = document.querySelector('.manage_icon--back-change');
-const body = document.querySelector('body');
-const footer = document.querySelector('footer');
+const productTitleChange = document.querySelector('.manage__product--change');
+const ordersSection = document.querySelectorAll('.manage__orders');
+const finishedOrderSection = document.querySelector('.manage__finished');
+
+// REFERENCE ELEMENTS
 
 const checkoutReference = document.querySelector('.checkout__reference');
 const referenceQuantity = document.querySelector('.reference__quantity');
 const referencePrice = document.querySelector('.reference__price');
+const ordersReference = document.querySelector('.orders__reference');
 
-const ordersSection = document.querySelectorAll('.manage__orders');
+// INPUTS
 
-const totalPriceOutput = document.querySelector('.manage__total--output');
-const btnRemove = document.querySelector('.btn__remove');
-
+const quantityInput = document.querySelectorAll('.quantity__input');
+const quantityInputChoose = document.querySelector('.quantity__input--choose');
+const quantityInputChange = document.querySelector('.quantity__input--change');
 const tableSelect = document.querySelector('.table__number--select');
-const finishedOrderSection = document.querySelector('.manage__finished');
+
+// OUTPUTS
+
+const priceOutput = document.querySelectorAll('.manage__price');
+const priceOutputChoose = document.querySelector('.manage__price--choose');
+const priceOutputChange = document.querySelector('.manage__price--change');
+const totalPriceOutput = document.querySelectorAll('.manage__total--output');
 const tableNumberOutput = document.querySelector('.table__number--output');
+
+// BUTTONS
+
+const btnQuantityPlus = document.querySelectorAll('.btn__quantity--plus');
+const btnQuantityMinus = document.querySelectorAll('.btn__quantity--minus');
+const btnPriceValue = document.querySelector('.btn__price');
+const btnAddToOrder = document.querySelector('.manage__btn--add');
+const btnChange = document.querySelector('.manage__btn--change');
+const btnGoToCheckout = document.querySelector('.manage__btn--checkout');
+const btnRemove = document.querySelector('.btn__remove');
 const btnDone = document.querySelector('.manage__btn--finished');
 
-// PRODUCTS
+// ARROWS
+
+const backArrow = document.querySelectorAll('.manage__icon--back');
+const changeBackArrow = document.querySelector('.manage_icon--back-change');
+
+// DATA
 
 const products = [
     {
@@ -71,6 +88,15 @@ const products = [
     }
 ]
 
+function YourOrder(title, price, quantity) {
+    
+    this.selectedProductTitle = title;
+    this.selectedProductPrice = price;
+    this.selectedProductQuantity = quantity;
+}
+
+const yourOrders = [];
+
 // UI START
 
 const mappedProducts = products.map(function(product) {
@@ -102,6 +128,8 @@ const closeManageSection = function() {
         footer.style.visibility = 'visible';
     })
 }
+
+closeManageSection();
 
 const closeManageChooseSection = function() {
 
@@ -178,7 +206,7 @@ const closeManageChangeSection = function() {
     footer.style.visibility = 'visible';
 }
 
-closeManageSection();
+
 
 // Open for styling
 // openManageOrderSection();
@@ -236,15 +264,32 @@ productSections.forEach(function(section, ind) {
             return order.selectedProductTitle === selectedProduct.title;
         })
 
+        // const index = accounts.findIndex(
+        //     acc => acc.username === currentAccount.username
+        //   );
+        //   console.log(index);
+
+        // const index = yourOrders.findIndex(function(order) {
+        //     return order.selectedProductTitle === changedOrder.selectedProductTitle;
+        // })
+    
+        // console.log(index);
+
         console.log('found')
         console.log(foundOrder);
 
         if (foundOrder) {
             console.log('Już masz to zamówienie w koszyku')
+            const foundOrderIndex = yourOrders.findIndex(function(order) {
+                return foundOrder.selectedProductTitle === order.selectedProductTitle;
+            })
+    
+            console.log('found order INDEX')
+            console.log(foundOrderIndex);
 
             // Zamiast dodawać zamówienie do yourOrders wyświetl change section
 
-            displayChangeSection(ind);
+            displayChangeSection(foundOrderIndex);
         } else {
             console.log('pierwszy raz zamawiasz ten produkt')
         }
@@ -361,6 +406,26 @@ changeBackArrow.addEventListener('click', closeManageChangeSection);
 let orderPrice;
 let orderQuantity;
 
+const displayTotalPrice = function(orders) {
+    orderPrice = orders
+        .map(function(order) {
+            return Number(order.selectedProductPrice);
+        })
+        .reduce(function(acc, curr) {
+            return acc + curr;
+        }, 0)
+    .toFixed(2);
+        
+
+    console.log(orderPrice);
+
+    totalPriceOutput.forEach(function(output) {
+        output.textContent = `£${orderPrice}`;
+    })
+
+    // totalPriceOutput.textContent = `£${orderPrice}`;
+}
+
 const updateCheckoutReference = function(orders) {
     
     orderQuantity = orders
@@ -378,17 +443,19 @@ const updateCheckoutReference = function(orders) {
     //     console.log(yourOrder.selectedProductQuantity);
     // });
 
-    orderPrice = orders
-        .map(function(order) {
-            return Number(order.selectedProductPrice);
-        })
-        .reduce(function(acc, curr) {
-            return acc + curr;
-        }, 0)
-    .toFixed(2);
+    displayTotalPrice(orders);
+
+    // orderPrice = orders
+    //     .map(function(order) {
+    //         return Number(order.selectedProductPrice);
+    //     })
+    //     .reduce(function(acc, curr) {
+    //         return acc + curr;
+    //     }, 0)
+    // .toFixed(2);
         
 
-    console.log(orderPrice);
+    // console.log(orderPrice);
 }
 
 const displayCheckoutReference = function() {
@@ -400,6 +467,14 @@ const displayCheckoutReference = function() {
     footer.style.height = `${checkoutReference.clientHeight}px`;
     // footer.innerHTML = '';
     footer.style.visibility = 'hidden';
+}
+
+const closeCheckoutReference = function() {
+    checkoutReference.classList.remove('checkout__reference--active');
+}
+
+const displayOrdersReference = function() {
+    ordersReference.classList.add('orders__reference--active');
 }
 
 btnAddToOrder.addEventListener('click', function(ev) {
@@ -451,14 +526,7 @@ btnAddToOrder.addEventListener('click', function(ev) {
 // const myFather = new Person("John", "Doe", 50, "blue");
 // const myMother = new Person("Sally", "Rally", 48, "green");
 
-function YourOrder(title, price, quantity) {
-    
-    this.selectedProductTitle = title;
-    this.selectedProductPrice = price;
-    this.selectedProductQuantity = quantity;
-}
 
-const yourOrders = [];
 
 // const mappedProducts = products.map(function(product) {
 //     return `
@@ -509,19 +577,21 @@ const displayOrders = function(orders) {
     
     // ordersSection.insertAdjacentHTML('afterbegin', mappedOrders);
 
-    orderPrice = yourOrders
-        .map(function(order) {
-            return Number(order.selectedProductPrice);
-        })
-        .reduce(function(acc, curr) {
-            return acc + curr;
-        }, 0)
-        .toFixed(2);
+    displayTotalPrice(orders);
+
+    // orderPrice = yourOrders
+    //     .map(function(order) {
+    //         return Number(order.selectedProductPrice);
+    //     })
+    //     .reduce(function(acc, curr) {
+    //         return acc + curr;
+    //     }, 0)
+    //     .toFixed(2);
         
 
-    console.log(orderPrice);
+    // console.log(orderPrice);
 
-    totalPriceOutput.textContent = `£${orderPrice}`
+    // totalPriceOutput.textContent = `£${orderPrice}`
 
     const orderRow = document.querySelectorAll('.order__row');
 
@@ -554,27 +624,30 @@ checkoutReference.addEventListener('click', function() {
 let changedOrder;
 
 const displayChangeSection = function(ind) {
+
+    console.log('pokaż mi ind tego pr');
+    console.log(ind);
     
     openManageChangeSection(ind);
 
-    selectedProduct.price = yourOrders[ind].selectedProductPrice / yourOrders[ind].selectedProductQuantity;
+    changedOrder = yourOrders[ind];
+
+    selectedProduct.price = changedOrder.selectedProductPrice / changedOrder.selectedProductQuantity;
     console.log(ind)
-    console.log(yourOrders[ind].selectedProductTitle)
-    console.log(yourOrders[ind].selectedProductPrice)
-    console.log(yourOrders[ind].selectedProductQuantity)
+    console.log(changedOrder.selectedProductTitle)
+    console.log(changedOrder.selectedProductPrice)
+    console.log(changedOrder.selectedProductQuantity)
     console.log(selectedProduct.price)
 
-    productTitleChange.textContent = yourOrders[ind].selectedProductTitle;
-    priceOutputChange.textContent =`£${yourOrders[ind].selectedProductPrice}`;
-    quantityInputChange.value = yourOrders[ind].selectedProductQuantity;
+    productTitleChange.textContent = changedOrder.selectedProductTitle;
+    priceOutputChange.textContent =`£${changedOrder.selectedProductPrice}`;
+    quantityInputChange.value = changedOrder.selectedProductQuantity;
 
     btnQuantityMinus.forEach(function(minusButton) {
         if (quantityInputChange.value < 2) {
             minusButton.classList.add('state--inactive');
         }
     })
-
-    changedOrder = yourOrders[ind];
 };
 
 // UPDATE ORDER WITH PREVIOUS CHANGES
@@ -627,16 +700,6 @@ btnRemove.addEventListener('click', function(ev) {
 
 // Display empty basket
 
-// CLOSE MANAGE SECTION
-
-backArrow.forEach(function(arrow) {
-    
-    // arrow.addEventListener('click', closeManageChooseSection);
-    // arrow.addEventListener('click', closeManageOrderSection);
-    arrow.addEventListener('click', closeManageSection);
-    arrow.addEventListener('click', displayCheckoutReference);
-})
-
 // DISPLAY FINISHED ORDER
 
 const displayFinishedOrderSection = function() {
@@ -664,17 +727,49 @@ btnGoToCheckout.addEventListener('click', function(ev) {
     displayFinishedOrderSection();
 })
 
+let orderPlaced = false;
+
 btnDone.addEventListener('click', function(ev) {
 
     ev.preventDefault();
 
     closeManageSection();
-})
 
-// Zacznij od minus button. Zamiast for each powinno być ind <
-// Następnie zajmij się arrow back kiedy klikasz ten sam produkt <
-// Zmień total w sekcji finished
-// Pozbądź się checkout reference kiedy nie ma żadnych zamówień
+    // Display your orders reference
+
+    displayOrdersReference();
+
+    orderPlaced = true;
+});
+
+ordersReference.addEventListener('click', function() {
+
+    displayFinishedOrderSection();
+    ordersReference.classList.remove('orders__reference--active');
+});
+
+// CLOSE MANAGE SECTION
+
+backArrow.forEach(function(arrow) {
+    
+    // arrow.addEventListener('click', closeManageChooseSection);
+    // arrow.addEventListener('click', closeManageOrderSection);
+    arrow.addEventListener('click', closeManageSection);
+    // arrow.addEventListener('click', displayCheckoutReference);
+
+    if (orderPlaced = true) {
+        arrow.addEventListener('click', displayOrdersReference);
+        arrow.addEventListener('click', closeCheckoutReference);
+    } 
+    
+    if (orderPlaced = false) {
+        arrow.addEventListener('click', displayCheckoutReference);
+    }
+
+});
+
+// Spróbuj coś zrobić z productsection const
+// Po złożeniu zamówienia product sections ma się wyświetlić komunikat, że trzeba odświeżyć stronę, żeby złożyć kolejne zamówienie.
 
 
 

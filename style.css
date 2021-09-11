@@ -238,6 +238,30 @@ footer {
     display: grid;
 }
 
+.orders__reference {
+    background: var(--primary-clr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: 1.5rem 2rem;
+    color: #FFF;
+    display: none;
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.orders__reference--active {
+    display: block;
+}
+
+.orders__paragraph {
+    margin: 0;
+    font-weight: 400;
+    font-size: 22px;
+    text-align: center;
+}
+
 /* .checkout__reference svg {
     height: 38px;
     width: auto;
