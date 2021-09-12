@@ -53,6 +53,10 @@ const btnDone = document.querySelector('.manage__btn--finished');
 const backArrow = document.querySelectorAll('.manage__icon--back');
 const changeBackArrow = document.querySelector('.manage_icon--back-change');
 
+// LET STATEMENTS
+
+let orderPlaced = false;
+
 // DATA
 
 const products = [
@@ -728,8 +732,6 @@ btnGoToCheckout.addEventListener('click', function(ev) {
     displayFinishedOrderSection();
 })
 
-let orderPlaced = false;
-
 btnDone.addEventListener('click', function(ev) {
 
     ev.preventDefault();
@@ -740,7 +742,9 @@ btnDone.addEventListener('click', function(ev) {
 
     displayOrdersReference();
 
-    orderPlaced = !orderPlaced;
+    activateBackArrow(orderPlaced = true);
+
+    orderPlaced = true;
 
     this.style.display = 'none';
 });
@@ -753,23 +757,92 @@ ordersReference.addEventListener('click', function() {
 
 // CLOSE MANAGE SECTION
 
+const activateBackArrow = function(placed) {
+    
+    closeManageSection();
+    closeCheckoutReference();
+
+    !placed ? displayCheckoutReference() : displayOrdersReference();
+}
+
 backArrow.forEach(function(arrow) {
 
-    arrow.addEventListener('click', closeManageSection);
-
-    if (orderPlaced) {
-        arrow.addEventListener('click', displayCheckoutReference);
-    } else {
-        arrow.addEventListener('click', displayOrdersReference);
-        arrow.addEventListener('click', closeCheckoutReference);
-    }
-
+    arrow.addEventListener('click', function() {
+        activateBackArrow(orderPlaced)
+    })
 });
 
+// if (orderPlaced = false) {
+//     backArrow.forEach(function(arrow) {
 
-// Po refakturyzacji zajmij sie booleanem, tak żeby po złożeniu zamówienia nie można już było złożyć nowego.
-// Spróbuj zrobić funkcję dla aktywowania product section.
-// Np wsadzić coś do display choose section.
+//         arrow.addEventListener('click', function() {
+//             closeManageSection();
+//             displayCheckoutReference();
+//         });
+//     });
+// } 
+
+// if (orderPlaced = true) {
+//     backArrow.forEach(function(arrow) {
+
+//         arrow.addEventListener('click', function() {
+//             closeManageSection();
+//             displayOrdersReference();
+//             closeCheckoutReference();
+//         });
+//     });
+// }
+
+// backArrow.forEach(function(arrow) {
+
+//     arrow.addEventListener('click', closeManageSection);
+
+//     if (!orderPlaced) {
+//         arrow.addEventListener('click', function() {   
+            
+//             displayCheckoutReference();
+//             console.log('jesteśmy przed złożeniem zamówenia');
+//         })
+//     } 
+    
+//     if (orderPlaced = true) {
+//         arrow.addEventListener('click', function() {
+
+//             displayOrdersReference();
+//             closeCheckoutReference();
+//             console.log('jeseśmy już po');             
+//         })
+//     }
+
+// });
+
+// if (orderPlaced) {
+
+//     backArrow.forEach(function(arrow) {
+
+//         arrow.addEventListener('click', function() {
+    
+//             closeManageSection();
+//             displayOrdersReference();
+//             closeCheckoutReference();
+//             console.log('jeseśmy już po');         
+//         });
+//     });
+// } else {
+
+//     backArrow.forEach(function(arrow) {
+        
+//         arrow.addEventListener('click', function() {
+    
+//             closeManageSection();
+//             displayCheckoutReference();
+//             console.log('jesteśmy przed złożeniem zamówenia');        
+//         });
+//     })
+// }
+
+
+// Ok udało się stworzyć funkcję, która aktywuje strzałkę i uwarunkować jej egzekwowanie w zależności od wartości boolean. Teraz to samo należy zrobić z product sections.
 
 
 
