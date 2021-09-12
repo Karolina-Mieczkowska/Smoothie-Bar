@@ -256,7 +256,7 @@ productSections.forEach(function(section, ind) {
         // Sprawdź czy produkt, który kliknęłam znajduje się już w yourOrders
         
         selectedProduct = products[ind];
-        
+            
         console.log('selected')
         console.log(selectedProduct.title)
         
@@ -330,6 +330,7 @@ productSections.forEach(function(section, ind) {
         displayChooseSection(selectedProduct);
     })
 })
+
 
 // STEP UP BUTTON
 
@@ -739,7 +740,9 @@ btnDone.addEventListener('click', function(ev) {
 
     displayOrdersReference();
 
-    orderPlaced = true;
+    orderPlaced = !orderPlaced;
+
+    this.style.display = 'none';
 });
 
 ordersReference.addEventListener('click', function() {
@@ -751,25 +754,22 @@ ordersReference.addEventListener('click', function() {
 // CLOSE MANAGE SECTION
 
 backArrow.forEach(function(arrow) {
-    
-    // arrow.addEventListener('click', closeManageChooseSection);
-    // arrow.addEventListener('click', closeManageOrderSection);
-    arrow.addEventListener('click', closeManageSection);
-    // arrow.addEventListener('click', displayCheckoutReference);
 
-    if (orderPlaced = true) {
+    arrow.addEventListener('click', closeManageSection);
+
+    if (orderPlaced) {
+        arrow.addEventListener('click', displayCheckoutReference);
+    } else {
         arrow.addEventListener('click', displayOrdersReference);
         arrow.addEventListener('click', closeCheckoutReference);
-    } 
-    
-    if (orderPlaced = false) {
-        arrow.addEventListener('click', displayCheckoutReference);
     }
 
 });
 
-// Spróbuj coś zrobić z productsection const
-// Po złożeniu zamówienia product sections ma się wyświetlić komunikat, że trzeba odświeżyć stronę, żeby złożyć kolejne zamówienie.
+
+// Po refakturyzacji zajmij sie booleanem, tak żeby po złożeniu zamówienia nie można już było złożyć nowego.
+// Spróbuj zrobić funkcję dla aktywowania product section.
+// Np wsadzić coś do display choose section.
 
 
 
