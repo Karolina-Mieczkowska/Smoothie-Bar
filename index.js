@@ -14,6 +14,7 @@ const productTitle = document.querySelector('.manage__product--choose');
 const productTitleChange = document.querySelector('.manage__product--change');
 const ordersSection = document.querySelectorAll('.manage__orders');
 const finishedOrderSection = document.querySelector('.manage__finished');
+const orderPlacedAnnouncement = document.querySelector('.placed__announcement');
 
 // REFERENCE ELEMENTS
 
@@ -53,7 +54,7 @@ const btnDone = document.querySelector('.manage__btn--finished');
 const backArrow = document.querySelectorAll('.manage__icon--back');
 const changeBackArrow = document.querySelector('.manage_icon--back-change');
 
-// LET STATEMENTS
+// ORDER PLACED STATEMENT
 
 let orderPlaced = false;
 
@@ -135,6 +136,11 @@ const closeManageSection = function() {
 
 closeManageSection();
 
+orderPlacedAnnouncement.style.top = `${bodyHeight}px`;
+orderPlacedAnnouncement.style.display = 'none';
+
+// OPERATE SECTIONS
+
 const closeManageChooseSection = function() {
 
     manageChoose.style.top = `${bodyHeight}px`;
@@ -210,12 +216,6 @@ const closeManageChangeSection = function() {
     footer.style.visibility = 'visible';
 }
 
-
-
-// Open for styling
-// openManageOrderSection();
-
-
 // DISPLAY CHOOSE SECTION
 
 let productPrice;
@@ -251,89 +251,80 @@ const displayChooseSection = function(product) {
 let selectedProduct;
 let foundOrder;
 
+const activateProductSections = function(currentIndex) {
+    
+    selectedProduct = products[currentIndex];
+        
+    foundOrder = yourOrders.find(function(order) {
+        return order.selectedProductTitle === selectedProduct.title;
+    })
+
+    if (foundOrder) {
+        console.log('Już masz to zamówienie w koszyku')
+        const foundOrderIndex = yourOrders.findIndex(function(order) {
+            return foundOrder.selectedProductTitle === order.selectedProductTitle;
+        })
+
+        displayChangeSection(foundOrderIndex);
+    } else {
+        console.log('pierwszy raz zamawiasz ten produkt')
+    }
+
+    quantityInput.forEach(function(input) {
+        if (foundOrder) {
+            input.value = foundOrder.selectedProductQuantity;
+        } else {
+            input.value = 1;
+            btnQuantityMinus.forEach(function(minusButton) {
+                minusButton.classList.add('state--inactive')
+            })
+        }
+    })
+
+    btnQuantityMinus.forEach(function(minusButton) {
+        if (foundOrder && quantityInputChange.value > 1) {
+            minusButton.classList.remove('state--inactive')
+        }
+    })
+
+    displayChooseSection(selectedProduct);
+}
+
 const productSections = document.querySelectorAll('.product');
 
 productSections.forEach(function(section, ind) {
     
     section.addEventListener('click', function() {
 
-        // Sprawdź czy produkt, który kliknęłam znajduje się już w yourOrders
-        
-        selectedProduct = products[ind];
-            
-        console.log('selected')
-        console.log(selectedProduct.title)
-        
-        foundOrder = yourOrders.find(function(order) {
-            return order.selectedProductTitle === selectedProduct.title;
-        })
-
-        // const index = accounts.findIndex(
-        //     acc => acc.username === currentAccount.username
-        //   );
-        //   console.log(index);
-
-        // const index = yourOrders.findIndex(function(order) {
-        //     return order.selectedProductTitle === changedOrder.selectedProductTitle;
-        // })
-    
-        // console.log(index);
-
-        console.log('found')
-        console.log(foundOrder);
-
-        if (foundOrder) {
-            console.log('Już masz to zamówienie w koszyku')
-            const foundOrderIndex = yourOrders.findIndex(function(order) {
-                return foundOrder.selectedProductTitle === order.selectedProductTitle;
-            })
-    
-            console.log('found order INDEX')
-            console.log(foundOrderIndex);
-
-            // Zamiast dodawać zamówienie do yourOrders wyświetl change section
-
-            displayChangeSection(foundOrderIndex);
+        if (!orderPlaced) {
+            activateProductSections(ind) 
         } else {
-            console.log('pierwszy raz zamawiasz ten produkt')
+            withdrawOrderPlacedAnnouncement();
+
+            setTimeout(function() {
+                hideOrderPlacedAnnouncement();
+            }, 5000);
         }
-
-        quantityInput.forEach(function(input, ind) {
-            if (foundOrder) {
-                input.value = foundOrder.selectedProductQuantity;
-            } else {
-                input.value = 1;
-                btnQuantityMinus.forEach(function(minusButton) {
-                    minusButton.classList.add('state--inactive')
-                })
-            }
-        })
-
-        btnQuantityMinus.forEach(function(minusButton) {
-            if (foundOrder && quantityInputChange.value > 1) {
-                minusButton.classList.remove('state--inactive')
-            }
-        })
-
-        // if (foundOrder) {
-        //     quantityInput.forEach(function(input) {
-        //         input.value = foundOrder.selectedProductQuantity;
-        //     })
-        // } else {
-        //     quantityInput.forEach(function(input) {
-        //         input.value = 1;
-        //     })
-        // }
-
-        // quantityInputChoose.value = 1;
-
-        // btnQuantityMinus.forEach(function(minusButton) {
-        //     minusButton.classList.add('state--inactive');
-        // })
-
-        displayChooseSection(selectedProduct);
     })
 })
+
+const withdrawOrderPlacedAnnouncement = function() {
+
+    orderPlacedAnnouncement.style.display = 'flex';
+
+    setTimeout(function() {
+        orderPlacedAnnouncement.style.top = '20vh';
+    }, 1);
+}
+
+const hideOrderPlacedAnnouncement = function() {
+    
+    orderPlacedAnnouncement.style.top = `${bodyHeight}px`;
+
+    setTimeout(function() {
+        orderPlacedAnnouncement.style.display = 'none';
+    }, 501);
+}
 
 
 // STEP UP BUTTON
@@ -343,10 +334,6 @@ btnQuantityPlus.forEach(function(plusButton, ind) {
     plusButton.addEventListener('click', function(ev) {
         ev.preventDefault();
 
-        // btnQuantityMinus.forEach(function(minusButton) {
-        //     minusButton.classList.remove('state--inactive');
-        // })
-
         btnQuantityMinus[ind].classList.remove('state--inactive');
 
         quantityInput.forEach(function(input) {
@@ -354,11 +341,6 @@ btnQuantityPlus.forEach(function(plusButton, ind) {
             productPrice = input.value * selectedProduct.price;
             productQuantity = Number(input.value);
         })
-        
-        // quantityInput.value++;
-    
-        // productPrice = quantityInput.value * selectedProduct.price;
-        // productQuantity = Number(quantityInput.value);
     
         priceOutput.forEach(function(output) {
             output.textContent = `£${productPrice.toFixed(2)}`;
@@ -404,7 +386,12 @@ btnQuantityMinus.forEach(function(minusButton) {
     })
 })
 
-changeBackArrow.addEventListener('click', closeManageChangeSection);
+changeBackArrow.addEventListener('click', function() {
+
+    closeManageChangeSection();
+    closeManageChooseSection();
+    displayCheckoutReference();
+});
 
 // ADD TO ORDER
 
@@ -420,15 +407,10 @@ const displayTotalPrice = function(orders) {
             return acc + curr;
         }, 0)
     .toFixed(2);
-        
-
-    console.log(orderPrice);
 
     totalPriceOutput.forEach(function(output) {
         output.textContent = `£${orderPrice}`;
     })
-
-    // totalPriceOutput.textContent = `£${orderPrice}`;
 }
 
 const updateCheckoutReference = function(orders) {
@@ -441,36 +423,15 @@ const updateCheckoutReference = function(orders) {
             return acc + curr;
         }, 0);
 
-    console.log(orderQuantity);
-
-    // const orderPrice = yourOrders.forEach(function(yourOrder) {
-    //     console.log(Number(yourOrder.selectedProductPrice)); 
-    //     console.log(yourOrder.selectedProductQuantity);
-    // });
-
     displayTotalPrice(orders);
-
-    // orderPrice = orders
-    //     .map(function(order) {
-    //         return Number(order.selectedProductPrice);
-    //     })
-    //     .reduce(function(acc, curr) {
-    //         return acc + curr;
-    //     }, 0)
-    // .toFixed(2);
-        
-
-    // console.log(orderPrice);
 }
 
 const displayCheckoutReference = function() {
+
     referenceQuantity.textContent = orderQuantity;
     referencePrice.textContent = `£${orderPrice}`;
-
-    
     checkoutReference.classList.add('checkout__reference--active');
     footer.style.height = `${checkoutReference.clientHeight}px`;
-    // footer.innerHTML = '';
     footer.style.visibility = 'hidden';
 }
 
@@ -485,24 +446,9 @@ const displayOrdersReference = function() {
 btnAddToOrder.addEventListener('click', function(ev) {
     ev.preventDefault();
 
-    // console.log(selectedProduct.title);
-    // console.log(productQuantity);
-    // console.log(productPrice.toFixed(2));
-
-    // yourOrderProducts.push(selectedProduct.title);
-    // yourOrderPrices.push(productPrice.toFixed(2));
-    // yourOrderQuantities.push(productQuantity);
-
-    // console.log(yourOrderProducts);
-    // console.log(yourOrderPrices);
-    // console.log(yourOrderQuantities);
-
     const currentOrder = new YourOrder(selectedProduct.title, productPrice.toFixed(2), productQuantity);
 
     yourOrders.push(currentOrder);
-    console.log(yourOrders);
-
-    console.log(yourOrders[0].selectedProductQuantity);
 
     closeManageChooseSection();
 
@@ -511,56 +457,7 @@ btnAddToOrder.addEventListener('click', function(ev) {
     displayCheckoutReference();
 
     displayOrders(yourOrders);
-
-    // totalPriceOutput.textContent = `£${orderPrice}`;
 })
-
-// YOUR ORDER 
-
-// const yourOrderProducts = [];
-// const yourOrderPrices = [];
-// const yourOrderQuantities = [];
-
-// function Person(first, last, age, eye) {
-//     this.firstName = first;
-//     this.lastName = last;
-//     this.age = age;
-//     this.eyeColor = eye;
-// }
-
-// const myFather = new Person("John", "Doe", 50, "blue");
-// const myMother = new Person("Sally", "Rally", 48, "green");
-
-
-
-// const mappedProducts = products.map(function(product) {
-//     return `
-//             <section class="product product__background--${product.background}">
-//                 <p class="product__description">${product.title}</p>
-//                 <p class="product__price">£${product.price.toFixed(2)}</p>
-//             </section> 
-//             `
-// }).join('');
-
-// main.insertAdjacentHTML('afterbegin', mappedProducts);
-
-// const displayOrders = function(orders) {
-//     orders.map(function(order) {
-//         return `
-//             <div class="order__row">
-//                 <output class="order__row--quantity">${order.selectedProductQuantity}</output>
-//                 <output class="order__row--title">${order.selectedProductTitle}</output>
-//                 <output class="order__row--price">£${order.selectedProductPrice}</output>
-//             </div>
-//         `
-//     })
-
-//     ordersSection.insertAdjacentHTML('afterbegin', orders);
-// }
-
-// displayOrders(yourOrders);
-
-// let selectedOrder;
 
 const displayOrders = function(orders) {
     const mappedOrders = orders.map(function(order) {
@@ -578,25 +475,7 @@ const displayOrders = function(orders) {
         section.insertAdjacentHTML('afterbegin', mappedOrders);
     })
 
-    // ordersSection.innerHTML = '';
-    
-    // ordersSection.insertAdjacentHTML('afterbegin', mappedOrders);
-
     displayTotalPrice(orders);
-
-    // orderPrice = yourOrders
-    //     .map(function(order) {
-    //         return Number(order.selectedProductPrice);
-    //     })
-    //     .reduce(function(acc, curr) {
-    //         return acc + curr;
-    //     }, 0)
-    //     .toFixed(2);
-        
-
-    // console.log(orderPrice);
-
-    // totalPriceOutput.textContent = `£${orderPrice}`
 
     const orderRow = document.querySelectorAll('.order__row');
 
@@ -629,20 +508,12 @@ checkoutReference.addEventListener('click', function() {
 let changedOrder;
 
 const displayChangeSection = function(ind) {
-
-    console.log('pokaż mi ind tego pr');
-    console.log(ind);
     
     openManageChangeSection(ind);
 
     changedOrder = yourOrders[ind];
 
     selectedProduct.price = changedOrder.selectedProductPrice / changedOrder.selectedProductQuantity;
-    console.log(ind)
-    console.log(changedOrder.selectedProductTitle)
-    console.log(changedOrder.selectedProductPrice)
-    console.log(changedOrder.selectedProductQuantity)
-    console.log(selectedProduct.price)
 
     productTitleChange.textContent = changedOrder.selectedProductTitle;
     priceOutputChange.textContent =`£${changedOrder.selectedProductPrice}`;
@@ -662,13 +533,6 @@ btnChange.addEventListener('click', function(ev) {
 
     closeManageChangeSection();
 
-    console.log(changedOrder)
-
-    console.log('new product details')
-    console.log(productPrice);
-    console.log(productQuantity)
-    console.log(changedOrder);
-
     changedOrder.selectedProductPrice = productPrice.toFixed(2);
     changedOrder.selectedProductQuantity = productQuantity;
 
@@ -686,15 +550,12 @@ btnRemove.addEventListener('click', function(ev) {
         return order.selectedProductTitle === changedOrder.selectedProductTitle;
     })
 
-    console.log(index);
-
     yourOrders.splice(index, 1);
 
     if (yourOrders.length > 0) {
         
         closeManageChangeSection();
         displayOrders(yourOrders);
-        console.log('no i co')
         updateCheckoutReference(yourOrders);
 
     } else if (yourOrders.length === 0) {
@@ -702,8 +563,6 @@ btnRemove.addEventListener('click', function(ev) {
         closeManageSection();
     }
 })
-
-// Display empty basket
 
 // DISPLAY FINISHED ORDER
 
@@ -727,8 +586,6 @@ const displayFinishedOrderSection = function() {
 btnGoToCheckout.addEventListener('click', function(ev) {
     ev.preventDefault();
 
-    console.log(tableSelect.value)
-
     displayFinishedOrderSection();
 })
 
@@ -737,8 +594,6 @@ btnDone.addEventListener('click', function(ev) {
     ev.preventDefault();
 
     closeManageSection();
-
-    // Display your orders reference
 
     displayOrdersReference();
 
@@ -762,7 +617,10 @@ const activateBackArrow = function(placed) {
     closeManageSection();
     closeCheckoutReference();
 
-    !placed ? displayCheckoutReference() : displayOrdersReference();
+    if (yourOrders.length > 0) {
+        
+        !placed ? displayCheckoutReference() : displayOrdersReference();
+    }
 }
 
 backArrow.forEach(function(arrow) {
@@ -772,78 +630,4 @@ backArrow.forEach(function(arrow) {
     })
 });
 
-// if (orderPlaced = false) {
-//     backArrow.forEach(function(arrow) {
-
-//         arrow.addEventListener('click', function() {
-//             closeManageSection();
-//             displayCheckoutReference();
-//         });
-//     });
-// } 
-
-// if (orderPlaced = true) {
-//     backArrow.forEach(function(arrow) {
-
-//         arrow.addEventListener('click', function() {
-//             closeManageSection();
-//             displayOrdersReference();
-//             closeCheckoutReference();
-//         });
-//     });
-// }
-
-// backArrow.forEach(function(arrow) {
-
-//     arrow.addEventListener('click', closeManageSection);
-
-//     if (!orderPlaced) {
-//         arrow.addEventListener('click', function() {   
-            
-//             displayCheckoutReference();
-//             console.log('jesteśmy przed złożeniem zamówenia');
-//         })
-//     } 
-    
-//     if (orderPlaced = true) {
-//         arrow.addEventListener('click', function() {
-
-//             displayOrdersReference();
-//             closeCheckoutReference();
-//             console.log('jeseśmy już po');             
-//         })
-//     }
-
-// });
-
-// if (orderPlaced) {
-
-//     backArrow.forEach(function(arrow) {
-
-//         arrow.addEventListener('click', function() {
-    
-//             closeManageSection();
-//             displayOrdersReference();
-//             closeCheckoutReference();
-//             console.log('jeseśmy już po');         
-//         });
-//     });
-// } else {
-
-//     backArrow.forEach(function(arrow) {
-        
-//         arrow.addEventListener('click', function() {
-    
-//             closeManageSection();
-//             displayCheckoutReference();
-//             console.log('jesteśmy przed złożeniem zamówenia');        
-//         });
-//     })
-// }
-
-
-// Ok udało się stworzyć funkcję, która aktywuje strzałkę i uwarunkować jej egzekwowanie w zależności od wartości boolean. Teraz to samo należy zrobić z product sections.
-
-
-
-
+// Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło.
