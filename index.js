@@ -3,6 +3,7 @@
 const main = document.querySelector('.main');
 const body = document.querySelector('body');
 const footer = document.querySelector('footer');
+const forms = document.querySelector('.forms');
 
 // SECTIONS
 
@@ -175,7 +176,7 @@ const closeManageOrderSection = function() {
     
     displayCheckoutReference();
 
-    if (yourOrders.length > 0) {
+    if (yourOrders.length > 0 && screen.width < 576) {
         checkoutReference.classList.add('checkout__reference--active');
     }
 }
@@ -457,6 +458,10 @@ btnAddToOrder.addEventListener('click', function(ev) {
     displayCheckoutReference();
 
     displayOrders(yourOrders);
+
+    if (screen.width > 576) {
+        openManageOrderSection();
+    }
 })
 
 const displayOrders = function(orders) {
@@ -587,6 +592,7 @@ btnGoToCheckout.addEventListener('click', function(ev) {
     ev.preventDefault();
 
     displayFinishedOrderSection();
+    closeManageOrderSection();
 })
 
 btnDone.addEventListener('click', function(ev) {
@@ -602,6 +608,10 @@ btnDone.addEventListener('click', function(ev) {
     orderPlaced = true;
 
     this.style.display = 'none';
+
+    if (screen.width > 576) {
+        displayFinishedOrderSection();
+    }
 });
 
 ordersReference.addEventListener('click', function() {
@@ -631,3 +641,19 @@ backArrow.forEach(function(arrow) {
 });
 
 // Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło.
+
+// DESKTOP VERSION
+
+if (screen.width > 576) {
+
+    // let formHeight = forms.clientHeight;
+
+    // console.log(formHeight)
+
+    // manageChoose.style.top = '0';
+    // manageOrder.style.top = `-${formHeight}px`;
+    // manageChange.style.top = `-${2*formHeight}px`;
+    // finishedOrderSection.style.top = `-${3*formHeight}px`;
+}
+
+// Pokombinuj z opcjami change w wersji desktopowej
