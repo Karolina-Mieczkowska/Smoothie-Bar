@@ -4,6 +4,7 @@ const main = document.querySelector('.main');
 const body = document.querySelector('body');
 const footer = document.querySelector('footer');
 const forms = document.querySelector('.forms');
+const footerDate = document.querySelector('.footer__date');
 
 // SECTIONS
 
@@ -494,6 +495,10 @@ const displayOrders = function(orders) {
                     minusButton.classList.remove('state--inactive')
                 }
             })
+
+            if (screen.width > 576) {
+                closeManageOrderSection();
+            }
         });
             
     });
@@ -546,6 +551,10 @@ btnChange.addEventListener('click', function(ev) {
     displayOrders(yourOrders);
     closeManageSection();
     displayCheckoutReference();
+
+    if (screen.width > 576 && yourOrders.length > 0) {
+        openManageOrderSection();
+    }
 })
 
 btnRemove.addEventListener('click', function(ev) {
@@ -566,6 +575,10 @@ btnRemove.addEventListener('click', function(ev) {
     } else if (yourOrders.length === 0) {
         
         closeManageSection();
+    }
+
+    if (screen.width > 576 && yourOrders.length > 0) {
+        openManageOrderSection();
     }
 })
 
@@ -592,7 +605,9 @@ btnGoToCheckout.addEventListener('click', function(ev) {
     ev.preventDefault();
 
     displayFinishedOrderSection();
-    closeManageOrderSection();
+    if (screen.width > 576) {
+        closeManageOrderSection();
+    }
 })
 
 btnDone.addEventListener('click', function(ev) {
@@ -640,7 +655,11 @@ backArrow.forEach(function(arrow) {
     })
 });
 
-// Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło.
+// FOOTER
+
+let date = new Date;
+
+footerDate.textContent = date.getFullYear();
 
 // DESKTOP VERSION
 
@@ -656,4 +675,7 @@ if (screen.width > 576) {
     // finishedOrderSection.style.top = `-${3*formHeight}px`;
 }
 
-// Pokombinuj z opcjami change w wersji desktopowej
+// Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło. (Mobile)
+// Readme
+// Refakturyzacja
+// consol logi
