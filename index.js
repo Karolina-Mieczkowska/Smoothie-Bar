@@ -201,8 +201,6 @@ const openManageOrderSection = function() {
     orderSectionClosed = false;
 }
 
-let changeSectionOpen = false;
-
 const openManageChangeSection = function() {
 
     manageChange.style.top = '0';
@@ -212,8 +210,6 @@ const openManageChangeSection = function() {
     main.style.display = 'none';
 
     footer.style.display = 'none';
-
-    changeSectionOpen = true;
 }
 
 const closeManageChangeSection = function() {
@@ -228,8 +224,6 @@ const closeManageChangeSection = function() {
 
     footer.style.height = 'inherit';
     footer.style.visibility = 'visible';
-
-    changeSectionOpen = false;
 }
 
 // DISPLAY CHOOSE SECTION
@@ -280,11 +274,11 @@ const activateProductSections = function(currentIndex) {
             return foundOrder.selectedProductTitle === order.selectedProductTitle;
         })
 
-        displayChangeSection(foundOrderIndex);
         closeManageChooseSection();
         closeManageOrderSection();
+        displayChangeSection(foundOrderIndex);
     } else {
-        
+
         displayChooseSection(selectedProduct);
     }
 
