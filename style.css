@@ -385,23 +385,11 @@ select {
 
  @media only screen and (min-width: 576px) {
 
-    /* .header__figure {
-        height: 25vh;
-    } */
-
     .header__title {
         -webkit-box-shadow: none;
         box-shadow: none;
         font-size: 2.3rem;
     }
-
-    /*.header__title--left,
-    .header__title--right {
-        display: inline-block;
-        width: 327px; 
-        width: 50%;
-        margin: 3rem;
-    } */
 
     main {
         margin: 0 auto;
@@ -418,7 +406,7 @@ select {
     .forms {
         height: 492.5px;
         width: 327px;
-        /* overflow-y: hidden; */
+        overflow-y: hidden;
     }
 
     .manage {
@@ -532,11 +520,3 @@ select {
         width: 40%;
     }
 }
-
-/* @media only screen and (min-width: 1700px) {
-    
-    main,
-    .header__title {
-        width: 35%;
-    }
-} */

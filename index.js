@@ -276,7 +276,6 @@ const activateProductSections = function(currentIndex) {
     })
 
     if (foundOrder) {
-        console.log('Już masz to zamówienie w koszyku')
         const foundOrderIndex = yourOrders.findIndex(function(order) {
             return foundOrder.selectedProductTitle === order.selectedProductTitle;
         })
@@ -285,7 +284,7 @@ const activateProductSections = function(currentIndex) {
         closeManageChooseSection();
         closeManageOrderSection();
     } else {
-        console.log('pierwszy raz zamawiasz ten produkt');
+        
         displayChooseSection(selectedProduct);
     }
 
@@ -305,8 +304,6 @@ const activateProductSections = function(currentIndex) {
             minusButton.classList.remove('state--inactive')
         }
     })
-
-    // displayChooseSection(selectedProduct);
 }
 
 const productSections = document.querySelectorAll('.product');
@@ -628,8 +625,6 @@ let formHeight = forms.clientHeight;
 btnGoToCheckout.addEventListener('click', function(ev) {
     ev.preventDefault();
 
-    // activateBackArrow(orderPlaced = true);
-
     orderPlaced = true;
 
     displayFinishedOrderSection();
@@ -645,10 +640,6 @@ btnDone.addEventListener('click', function(ev) {
     closeManageSection();
 
     displayOrdersReference();
-
-    // activateBackArrow(orderPlaced = true);
-
-    // orderPlaced = true;
 
     this.style.display = 'none';
 
@@ -689,14 +680,3 @@ let date = new Date;
 
 footerDate.textContent = date.getFullYear();
 
-// Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło. (Mobile) <
-// Napraw placed order announcement. (desktp) <
-// Kiedy klikasz ten sam produkt powinno pojawiać się change. (desktop) <
-// Jak zamykasz change przez back arrow, to pojawia się checkout ref. (mobile) <
-// Po wciśnięciu go to checkout nie powinno być możliwości usunięcia zamówienia. (desktop) <
-
-// Refakturyzacja
-// zamknij overflow
-// consol logi
-// Publikacja
-// Readme
