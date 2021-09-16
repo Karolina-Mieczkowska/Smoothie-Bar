@@ -163,7 +163,11 @@ const openManageChooseSection = function() {
     main.style.display = 'none';
 
     footer.style.display = 'none';
+
+
 }
+
+let orderSectionClosed = false;
 
 const closeManageOrderSection = function() {
 
@@ -180,6 +184,8 @@ const closeManageOrderSection = function() {
     if (yourOrders.length > 0 && screen.width < 576) {
         checkoutReference.classList.add('checkout__reference--active');
     }
+
+    ordersSectionClosed = true;
 }
 
 const openManageOrderSection = function() {
@@ -191,7 +197,11 @@ const openManageOrderSection = function() {
     main.style.display = 'none';
 
     footer.style.display = 'none';
+
+    orderSectionClosed = false;
 }
+
+let changeSectionOpen = false;
 
 const openManageChangeSection = function() {
 
@@ -202,6 +212,8 @@ const openManageChangeSection = function() {
     main.style.display = 'none';
 
     footer.style.display = 'none';
+
+    changeSectionOpen = true;
 }
 
 const closeManageChangeSection = function() {
@@ -216,6 +228,8 @@ const closeManageChangeSection = function() {
 
     footer.style.height = 'inherit';
     footer.style.visibility = 'visible';
+
+    changeSectionOpen = false;
 }
 
 // DISPLAY CHOOSE SECTION
@@ -268,8 +282,11 @@ const activateProductSections = function(currentIndex) {
         })
 
         displayChangeSection(foundOrderIndex);
+        closeManageChooseSection();
+        closeManageOrderSection();
     } else {
-        console.log('pierwszy raz zamawiasz ten produkt')
+        console.log('pierwszy raz zamawiasz ten produkt');
+        displayChooseSection(selectedProduct);
     }
 
     quantityInput.forEach(function(input) {
@@ -289,7 +306,7 @@ const activateProductSections = function(currentIndex) {
         }
     })
 
-    displayChooseSection(selectedProduct);
+    // displayChooseSection(selectedProduct);
 }
 
 const productSections = document.querySelectorAll('.product');
@@ -392,7 +409,10 @@ changeBackArrow.addEventListener('click', function() {
 
     closeManageChangeSection();
     closeManageChooseSection();
-    displayCheckoutReference();
+
+    if (orderSectionClosed) {
+        displayCheckoutReference();
+    }
 });
 
 // ADD TO ORDER
@@ -488,7 +508,9 @@ const displayOrders = function(orders) {
     orderRow.forEach(function(row, ind) {
         
         row.addEventListener('click', function() {
-            displayChangeSection(ind);
+            if (!orderPlaced) {
+                displayChangeSection(ind);
+            }
 
             btnQuantityMinus.forEach(function(minusButton) {
                 if (minusButton.classList.contains('state--inactive') && quantityInputChange.value > 1) {
@@ -601,8 +623,14 @@ const displayFinishedOrderSection = function() {
     tableNumberOutput.textContent = tableSelect.value;
 }
 
+let formHeight = forms.clientHeight;
+
 btnGoToCheckout.addEventListener('click', function(ev) {
     ev.preventDefault();
+
+    // activateBackArrow(orderPlaced = true);
+
+    orderPlaced = true;
 
     displayFinishedOrderSection();
     if (screen.width > 576) {
@@ -618,9 +646,9 @@ btnDone.addEventListener('click', function(ev) {
 
     displayOrdersReference();
 
-    activateBackArrow(orderPlaced = true);
+    // activateBackArrow(orderPlaced = true);
 
-    orderPlaced = true;
+    // orderPlaced = true;
 
     this.style.display = 'none';
 
@@ -637,14 +665,14 @@ ordersReference.addEventListener('click', function() {
 
 // CLOSE MANAGE SECTION
 
-const activateBackArrow = function(placed) {
+const activateBackArrow = function() {
     
     closeManageSection();
     closeCheckoutReference();
 
     if (yourOrders.length > 0) {
         
-        !placed ? displayCheckoutReference() : displayOrdersReference();
+        !orderPlaced ? displayCheckoutReference() : displayOrdersReference();
     }
 }
 
@@ -661,21 +689,14 @@ let date = new Date;
 
 footerDate.textContent = date.getFullYear();
 
-// DESKTOP VERSION
+// Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło. (Mobile) <
+// Napraw placed order announcement. (desktp) <
+// Kiedy klikasz ten sam produkt powinno pojawiać się change. (desktop) <
+// Jak zamykasz change przez back arrow, to pojawia się checkout ref. (mobile) <
+// Po wciśnięciu go to checkout nie powinno być możliwości usunięcia zamówienia. (desktop) <
 
-if (screen.width > 576) {
-
-    // let formHeight = forms.clientHeight;
-
-    // console.log(formHeight)
-
-    // manageChoose.style.top = '0';
-    // manageOrder.style.top = `-${formHeight}px`;
-    // manageChange.style.top = `-${2*formHeight}px`;
-    // finishedOrderSection.style.top = `-${3*formHeight}px`;
-}
-
-// Po wciśnięciu remove pojawia się choose. Zrób tak, żeby wszystko się zamknęło. (Mobile)
-// Readme
 // Refakturyzacja
+// zamknij overflow
 // consol logi
+// Publikacja
+// Readme

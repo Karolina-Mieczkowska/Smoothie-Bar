@@ -151,6 +151,10 @@ footer {
     display: block;
 }
 
+.manage__change {
+    z-index: 100;
+}
+
 .btn {
     border: none;
     background: none;
@@ -372,6 +376,7 @@ select {
      background: #FFF;
      position: absolute;
      left: 0;
+     z-index: 5;
      display: flex;
      flex-direction: column;
      justify-content: center;
@@ -413,7 +418,7 @@ select {
     .forms {
         height: 492.5px;
         width: 327px;
-        overflow-y: hidden;
+        /* overflow-y: hidden; */
     }
 
     .manage {
