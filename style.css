@@ -524,7 +524,7 @@ select {
     
     main,
     .header__title {
-        width: 4%;
+        width: 40%;
     }
 }
 
