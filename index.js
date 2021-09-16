@@ -224,6 +224,8 @@ const closeManageChangeSection = function() {
 
     footer.style.height = 'inherit';
     footer.style.visibility = 'visible';
+
+    // updateCheckoutReference(yourOrders);
 }
 
 // DISPLAY CHOOSE SECTION
@@ -535,6 +537,7 @@ let changedOrder;
 const displayChangeSection = function(ind) {
     
     openManageChangeSection(ind);
+    // closeCheckoutReference();
 
     changedOrder = yourOrders[ind];
 
@@ -583,13 +586,15 @@ btnRemove.addEventListener('click', function(ev) {
 
     if (yourOrders.length > 0) {
         
-        closeManageChangeSection();
-        displayOrders(yourOrders);
         updateCheckoutReference(yourOrders);
+        displayOrders(yourOrders);
+        closeManageChangeSection();
+        displayCheckoutReference();
 
     } else if (yourOrders.length === 0) {
         
         closeManageSection();
+        closeCheckoutReference();
     }
 
     if (screen.width > 576 && yourOrders.length > 0) {

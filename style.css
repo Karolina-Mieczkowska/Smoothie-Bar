@@ -295,6 +295,10 @@ footer {
     font-weight: 600;
 }
 
+.manage__order {
+    z-index: 50;
+}
+
 .manage__orders {
     overflow-y: scroll;
     padding: 1rem 0;
