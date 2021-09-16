@@ -233,27 +233,29 @@ let productQuantity;
 
 const displayChooseSection = function(product) {
 
-    openManageChooseSection();
-
     if (checkoutReference.classList.contains('checkout__reference--active')) {
         
         checkoutReference.classList.remove('checkout__reference--active');
     }
 
     productTitle.textContent = product.title;
+
+    quantityInputChoose.value = '1';
     
-    priceOutputChoose.innerHTML = `£${product.price.toFixed(2)}`;
+    // priceOutputChoose.innerHTML = `£${product.price.toFixed(2)}`;
 
-    priceOutputChoose.textContent = `£${product.price.toFixed(2)}`;
+    // priceOutputChoose.textContent = `£${product.price.toFixed(2)}`;
 
-    btnPriceValue.textContent = `£${product.price.toFixed(2)}`;
+    // btnPriceValue.textContent = `£${product.price.toFixed(2)}`;
 
-    productPrice = quantityInputChoose.value * selectedProduct.price;
+    productPrice = Number(quantityInputChoose.value) * selectedProduct.price;
     productQuantity = Number(quantityInputChoose.value);
 
     priceOutputChoose.textContent = `£${productPrice.toFixed(2)}`;
 
     btnPriceValue.textContent = `£${productPrice.toFixed(2)}`;
+
+    openManageChooseSection();
 }
 
 // SELECTED PRODUCT
